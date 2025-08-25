@@ -1,0 +1,1095 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pre Medixis Quiz</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 5px;
+            font-size: 10px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 6px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            padding: 6px 8px;
+            background: linear-gradient(to right, #4776E6, #8E54E9);
+            color: white;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h2 {
+            font-size: 10px;
+            font-weight: bold;
+        }
+        
+        .timer {
+            font-size: 9px;
+            font-weight: bold;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 6px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .timer i {
+            margin-right: 3px;
+            font-size: 8px;
+        }
+        
+        .content {
+            padding: 8px;
+        }
+        
+        .password-section {
+            text-align: center;
+            padding: 10px;
+        }
+        
+        .password-input {
+            width: 100%;
+            padding: 5px;
+            margin: 6px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 9px;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+        
+        .password-input:focus {
+            border-color: #4776E6;
+            outline: none;
+        }
+        
+        .btn {
+            padding: 4px 6px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            font-size: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            margin: 0 2px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, #4776E6, #8E54E9);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        
+        .quiz-section {
+            display: none;
+        }
+        
+        .question {
+            font-size: 9px;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            line-height: 1.2;
+            padding: 5px 0;
+        }
+        
+        .options-vertical {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 10px;
+        }
+        
+        .option-row {
+            display: flex;
+            align-items: center;
+            padding: 4px;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.2s;
+            min-height: 20px;
+        }
+        
+        .option-row:hover {
+            background: #e9e9e9;
+            border-color: #bbb;
+        }
+        
+        .option-row.selected {
+            background: #d1e7ff;
+            border-color: #4776E6;
+            color: #4776E6;
+            font-weight: bold;
+        }
+        
+        .option-label {
+            font-weight: bold;
+            margin-right: 6px;
+            min-width: 20px;
+            text-align: center;
+        }
+        
+        .option-text {
+            font-size: 8px;
+            line-height: 1.1;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            gap: 4px;
+        }
+        
+        .btn-nav {
+            padding: 4px 6px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            font-size: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+        }
+        
+        .btn-nav i {
+            margin-right: 3px;
+            font-size: 7px;
+        }
+        
+        .btn-back {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-skip {
+            background: #ffc107;
+            color: #333;
+        }
+        
+        .btn-next {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-submit {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .progress-container {
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .progress-text {
+            font-size: 8px;
+            color: #666;
+            white-space: nowrap;
+        }
+        
+        .progress {
+            flex-grow: 1;
+            background: #e9ecef;
+            height: 4px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, #4776E6, #8E54E9);
+            border-radius: 2px;
+            transition: width 0.3s;
+        }
+        
+        .question-counter {
+            font-size: 8px;
+            color: #666;
+            text-align: right;
+            margin-top: 3px;
+        }
+        
+        .result-section {
+            display: none;
+            padding: 10px;
+        }
+        
+        .result-header {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #4776E6;
+            font-size: 10px;
+        }
+        
+        .result-summary {
+            background: #f8f9fa;
+            padding: 8px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-size: 9px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+        }
+        
+        .result-summary p {
+            margin: 2px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .result-details {
+            margin-top: 10px;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+        
+        .result-item {
+            background: #f8f9fa;
+            padding: 6px;
+            border-radius: 3px;
+            margin-bottom: 6px;
+            font-size: 8px;
+        }
+        
+        .result-question {
+            font-weight: bold;
+            margin-bottom: 3px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .result-answer {
+            margin: 2px 0;
+            padding-left: 6px;
+        }
+        
+        .correct {
+            color: #28a745;
+        }
+        
+        .incorrect {
+            color: #dc3545;
+        }
+        
+        .reasoning {
+            margin-top: 4px;
+            padding: 4px;
+            background: #e9ecef;
+            border-radius: 2px;
+            font-size: 7px;
+            line-height: 1.2;
+        }
+        
+        .btn-retake {
+            display: block;
+            width: 100%;
+            padding: 5px;
+            margin-top: 10px;
+            background: linear-gradient(to right, #4776E6, #8E54E9);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            font-size: 9px;
+        }
+        
+        .btn-retake:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        
+        .time-progress {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        
+        .time-progress-bar {
+            flex-grow: 1;
+            height: 3px;
+            background: #e9ecef;
+            border-radius: 1.5px;
+            overflow: hidden;
+        }
+        
+        .time-progress-fill {
+            height: 100%;
+            background: #ffc107;
+            border-radius: 1.5px;
+            transition: width 1s linear;
+        }
+        
+        .quiz-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 6px;
+            font-size: 8px;
+            color: #666;
+        }
+
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: #fff;
+            padding: 10px 15px;
+            border: 1px solid #888;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 300px;
+            text-align: center;
+        }
+        
+        .modal-content h3 {
+            margin-bottom: 5px;
+            font-size: 1.1em;
+            color: #333;
+        }
+        
+        .modal-content p {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .modal-button {
+            background: linear-gradient(to right, #4776E6, #8E54E9);
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Pre Medixis</h2>
+            <div class="timer" id="total-timer" style="display: none;"><i class="fas fa-clock"></i> <span id="total-time">10:00</span></div>
+            <div class="timer" id="question-timer" style="display: none;"><i class="fas fa-hourglass-half"></i> <span id="question-time">01:00</span></div>
+        </div>
+        
+        <div class="content">
+            <!-- Password Section -->
+            <div class="password-section" id="password-section">
+                <p style="font-size: 9px;">Enter password to start the quiz</p>
+                <input type="password" class="password-input" id="password-input" placeholder="Enter password">
+                <button class="btn btn-primary" id="start-btn">Start Quiz</button>
+            </div>
+            
+            <!-- Quiz Section -->
+            <div class="quiz-section" id="quiz-section">
+                <div class="question" id="question">Question will appear here</div>
+                
+                <div class="options-vertical" id="options">
+                    <!-- Options will be generated here -->
+                </div>
+                
+                <div class="navigation">
+                    <button class="btn-nav btn-back" id="back-btn"><i class="fas fa-arrow-left"></i> Back</button>
+                    <button class="btn-nav btn-skip" id="skip-btn"><i class="fas fa-forward"></i> Skip</button>
+                    <button class="btn-nav btn-next" id="next-btn">Next <i class="fas fa-arrow-right"></i></button>
+                    <button class="btn-nav btn-submit" id="submit-btn"><i class="fas fa-paper-plane"></i> Submit</button>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-text">Progress:</div>
+                    <div class="progress">
+                        <div class="progress-bar" id="progress-bar"></div>
+                    </div>
+                    <div id="progress-percent">0%</div>
+                </div>
+                
+                <div class="time-progress">
+                    <div class="progress-text">Question Time:</div>
+                    <div class="time-progress-bar">
+                        <div class="time-progress-fill" id="time-progress-fill"></div>
+                    </div>
+                </div>
+                
+                <div class="quiz-info">
+                    <div>Question: <span id="current-question">1</span>/<span id="total-questions">43</span></div>
+                    <div>Skipped: <span id="skipped-count">0</span></div>
+                </div>
+            </div>
+            
+            <!-- Result Section -->
+            <div class="result-section" id="result-section">
+                <h2 class="result-header"><i class="fas fa-trophy"></i> Quiz Results</h2>
+                
+                <div class="result-summary">
+                    <p><strong>Total MCQs:</strong> <span id="total-mcqs">0</span></p>
+                    <p><strong>Correct:</strong> <span id="correct-answers">0</span></p>
+                    <p><strong>Wrong:</strong> <span id="wrong-answers">0</span></p>
+                    <p><strong>Skipped:</strong> <span id="skipped-answers">0</span></p>
+                    <p><strong>Left:</strong> <span id="left-answers">0</span></p>
+                    <p><strong>Percentage:</strong> <span id="percentage">0%</span></p>
+                    <p><strong>Time Taken:</strong> <span id="time-taken">00:00</span></p>
+                </div>
+                
+                <h3 style="font-size: 9px; margin-bottom: 5px;">Detailed Results:</h3>
+                <div class="result-details" id="result-details">
+                    <!-- Result details will be generated here -->
+                </div>
+                
+                <button class="btn-retake" id="retake-btn"><i class="fas fa-redo"></i> Retake Quiz</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Modal for Alerts -->
+    <div id="message-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3 id="modal-title"></h3>
+            <p id="modal-message"></p>
+            <button class="modal-button" onclick="document.getElementById('message-modal').style.display='none';">OK</button>
+        </div>
+    </div>
+
+    <script>
+        // Quiz data
+        const quizData = [
+            {
+                question: "51. The enzyme responsible for breaking down the original HIV RNA genome after reverse transcription is:",
+                options: ["Integrase", "Protease", "Ribonuclease (RNAase)", "Reverse Transcriptase"],
+                correct: 2,
+                reasoning: "Step 4 of the detailed HIV life cycle explicitly states: 'After reverse transcription the genomic RNA is disintegrated by the ribonuclease (RNAase) enzyme.'",
+                concept: "HIV replication process"
+            },
+            {
+                question: "52. An example of an opportunistic fungal infection mentioned in the context of AIDS is:",
+                options: ["Pulmonary Tuberculosis", "Toxoplasmosis", "Candidiasis of the esophagus", "Recurrent Pneumonia"],
+                correct: 2,
+                reasoning: "The list of opportunistic invasions includes 'Candidiasis of the esophagus, trachea, bronchi or lungs' as a fungal disease that exploits a weakened immune system.",
+                concept: "Opportunistic infections in AIDS"
+            },
+            {
+                question: "53. Which virus is correctly matched with its primary host classification?",
+                options: ["Tobacco Mosaic Virus: Animal Virus", "Bacteriophage: Plant Virus", "Poliovirus: Animal Virus", "Potato Yellow Dwarf Virus: Bacteriophage"],
+                correct: 2,
+                reasoning: "The PDF classifies poliovirus as an example of a spherical virus that causes disease in humans, placing it under 'animal viruses.'",
+                concept: "Virus classification"
+            },
+            {
+                question: "54. The 'budding' process in the HIV life cycle results in the new virion:",
+                options: ["Losing its envelope and becoming non-infectious.", "Acquiring a lipoprotein envelope derived from the host cell membrane.", "Immediately integrating into the DNA of a new host cell.", "Shedding its capsid to release RNA into the cytoplasm."],
+                correct: 1,
+                reasoning: "The text states that during budding, the mature virions are released 'enclosing a portion of host cell membrane around them,' forming the viral envelope.",
+                concept: "HIV replication process"
+            },
+            {
+                question: "55. The dramatic reduction in the number of functional helper T cells due to HIV infection directly leads to:",
+                options: ["An increase in red blood cell production.", "Enhanced communication and activation of other immune cells.", "A deficient immune response against pathogens and cancers.", "The overproduction of antibodies by B cells."],
+                correct: 2,
+                reasoning: "The document explains that helper T cells regulate immunity by enhancing other immune cells. Their destruction causes 'deficiency of the human immune system,' leading to an inability to fight off diseases.",
+                concept: "HIV pathogenesis"
+            },
+            {
+                question: "56. Which of these is a recognized neurological complication of advanced AIDS?",
+                options: ["Improved memory and coordination", "Troubles thinking, loss of coordination, and behavioral changes", "Increased production of neurotransmitters", "Strengthening of the blood-brain barrier"],
+                correct: 1,
+                reasoning: "Under opportunistic invasions, the text lists 'brain impairment' and 'Signs of brain deterioration include troubles thinking, loss of co-ordination and balance and behavioral changes.'",
+                concept: "AIDS complications"
+            },
+            {
+                question: "57. The genome of the Hepatitis A virus is classified as:",
+                options: ["Double-stranded DNA (dsDNA)", "Single-stranded RNA (ssRNA); serves as mRNA", "Single-stranded RNA (ssRNA); template for DNA synthesis", "Double-stranded RNA (dsRNA)"],
+                correct: 1,
+                reasoning: "The virus classification section lists 'Picornovirus causes poison hepatitis A' and, based on the Baltimore system described, picornaviruses have a positive-sense ssRNA genome that can act directly as mRNA.",
+                concept: "Virus genome types"
+            },
+            {
+                question: "58. A core principle of HIV prevention is avoiding the transfer of:",
+                options: ["All bodily fluids, including sweat and saliva.", "Specific body fluids like blood, semen, vaginal secretions, and breast milk.", "Airborne droplets from coughing and sneezing.", "Genetic material through casual contact."],
+                correct: 1,
+                reasoning: "The control measures state AIDS can be controlled by preventing the transfer of 'body fluid (blood, serum, semen, etc.)'. It also specifies that saliva, sweat, and casual contact are not routes of transmission.",
+                concept: "HIV transmission"
+            },
+            {
+                question: "59. The international system of virus classification prioritizes which of the following characteristics?",
+                options: ["The color of the viral crystals and the disease symptoms.", "The name of the scientist who discovered the virus.", "The structure and composition of the virus particle (virion).", "The geographical origin of the virus."],
+                correct: 2,
+                reasoning: "The document states: 'The internationally agreed system of virus classification is based on the structure and composition of the virus particle (virion).'",
+                concept: "Virus classification"
+            },
+            {
+                question: "60. Why is the initial fever and rash in primary HIV infection not a reliable diagnostic tool?",
+                options: ["The symptoms are always fatal.", "They are identical to symptoms of many other common viral infections.", "They only appear after decades of infection.", "They are caused by opportunistic infections, not HIV itself."],
+                correct: 1,
+                reasoning: "The text notes that these early symptoms 'disappear' and that for most people, the first symptoms will not be apparent, highlighting their non-specific nature which resembles flu or mononucleosis.",
+                concept: "HIV diagnosis"
+            },
+            {
+                question: "61. The role of the host cell's RNA polymerase in the HIV life cycle is to:",
+                options: ["Convert viral RNA into DNA.", "Translate viral mRNA into proteins.", "Transcribe the integrated proviral DNA into viral RNA and mRNA.", "Package the viral genome into new capsids."],
+                correct: 2,
+                reasoning: "Steps 8 and 9 of the life cycle describe: 'Viral mRNA is transcribed from the proviral DNA by the host cell RNA polymerase.'",
+                concept: "HIV replication process"
+            },
+            {
+                question: "62. Paramyxovirus is the causative agent of:",
+                options: ["Smallpox and warts", "Measles and mumps", "Hepatitis and polio", "Influenza and AIDS"],
+                correct: 1,
+                reasoning: "The classification of animal viruses explicitly states: 'Paramyxovirus causes measles, mumps.'",
+                concept: "Virus classification"
+            },
+            {
+                question: "63. The term 'acellular' used to describe viruses refers to their lack of:",
+                options: ["Genetic material", "A cellular structure and independent metabolism", "The ability to cause infection", "Protein coats"],
+                correct: 1,
+                reasoning: "The chapter title 'Acellular life' and the status section listing viruses as 'non-cellular' or 'sub-cellular' confirm they lack a true cellular structure and the metabolic machinery of living cells.",
+                concept: "General virology"
+            },
+            {
+                question: "64. The primary reason an HIV-positive mother is advised not to breastfeed is to prevent:",
+                options: ["Contaminating her milk with toxic antiretroviral drugs.", "The emotional stress on the infant.", "Transmission of HIV through breast milk.", "Diluting the nutritional value of the milk."],
+                correct: 2,
+                reasoning: "Among the control measures, it is stated: 'Mother having HIV should not feed their babies,' implying transmission through breastfeeding, which is a well-established route.",
+                concept: "HIV transmission"
+            },
+            {
+                question: "65. In the context of global HIV statistics, the number '36.7 million people globally were living with HIV (end 2015)' represents the:",
+                options: ["Incidence rate", "Mortality rate", "Prevalence", "Infection growth rate"],
+                correct: 2,
+                reasoning: "In epidemiology, 'prevalence' refers to the total number of existing cases of a disease in a population at a specific time, which is what this statistic describes.",
+                concept: "Epidemiology"
+            },
+            {
+                question: "66. The Rous sarcoma virus is an example of an animal virus that causes:",
+                options: ["A mild rash", "Foot and mouth disease", "Cancer", "Diarrhea"],
+                correct: 2,
+                reasoning: "The animal virus section notes: 'Rous sarcoma virus causes cancer in animals.'",
+                concept: "Virus classification"
+            },
+            {
+                question: "67. The purpose of the 'uncoating' step in the viral life cycle is to:",
+                options: ["Attach the virion to the host cell receptor.", "Release the viral genetic material into the host cell.", "Assemble new viral particles.", "Create a protective envelope."],
+                correct: 1,
+                reasoning: "The life cycle description states: 'Once inside host cell, the HIV particle sheds its protective coat i.e., uncoating occurs. This leaves single stranded viral RNA in the cytoplasm.'",
+                concept: "Viral replication cycle"
+            },
+            {
+                question: "68. A patient in the 'asymptomatic carrier' stage of HIV will most likely:",
+                options: ["Have a negative HIV antibody test.", "Be completely non-infectious.", "Show a positive HIV antibody test.", "Have a fully destroyed immune system."],
+                correct: 2,
+                reasoning: "The text clearly states that during the asymptomatic stage, 'the standard HIV blood test for the presence of antibody becomes positive.'",
+                concept: "HIV pathogenesis"
+            },
+            {
+                question: "69. The figure depicting the different shapes of viruses (Fig 5.1) would most likely include which of the following?",
+                options: ["A helical-shaped Adenovirus", "A spherical Polio virus", "A rod-shaped Bacteriophage", "A complex-shaped Tobacco Mosaic Virus"],
+                correct: 1,
+                reasoning: "The classification based on morphology lists: 'a. Spherical Virus. e.g. Polio virus'",
+                concept: "Virus structure"
+            },
+            {
+                question: "70. The high global mortality from AIDS-related illnesses prior to widespread ART access underscores the critical importance of:",
+                options: ["Developing better antibiotics for bacteria.", "The immune system in preventing fatal infections and cancers.", "Isolating infected individuals from society.", "Treating water sources in endemic areas."],
+                correct: 1,
+                reasoning: "The statistics show 35 million people died from AIDS-related illnesses, which are opportunistic diseases that a functional immune system normally controls, highlighting its life-saving role.",
+                concept: "HIV pathogenesis"
+            },
+            {
+                question: "71. The discovery that a virus could cause foot-and-mouth disease in cattle demonstrated that viruses:",
+                options: ["Were exclusive to plants.", "Could infect animals as well.", "Were a type of bacteria.", "Could be seen with a light microscope."],
+                correct: 1,
+                reasoning: "The historical discovery section notes that in 1898, a virus was shown to transmit foot and mouth disease in cattle, proving their pathogenicity in animals.",
+                concept: "History of virology"
+            },
+            {
+                question: "72. The structural subunit that assembles to form a viral capsid is called a:",
+                options: ["Provirus", "Capsomer", "Glycoprotein", "Envelope"],
+                correct: 1,
+                reasoning: "The description of the HIV structure notes its capsid 'is composed of capsomers,' which are the protein building blocks of capsids.",
+                concept: "Virus structure"
+            },
+            {
+                question: "73. The statistic '2.1 million people became newly infected with HIV (end 2015)' measures the:",
+                options: ["Prevalence of HIV", "Incidence of HIV", "Mortality rate of AIDS", "Rate of ART coverage"],
+                correct: 1,
+                reasoning: "In epidemiology, 'incidence' refers to the number of *new* cases of a disease within a specified time period, which is what this number represents.",
+                concept: "Epidemiology"
+            },
+            {
+                question: "74. An example of a dsDNA virus is:",
+                options: ["Influenza virus", "Smallpox virus", "HIV", "Tobacco Mosaic Virus"],
+                correct: 1,
+                reasoning: "The classification based on genome type explicitly lists 'Double-stranded (dsDNA) e.g. smallpox virus.'",
+                concept: "Virus classification"
+            },
+            {
+                question: "75. The main function of B cells in the immune system, as described, is to:",
+                options: ["Directly attack and destroy infected cells.", "Release antibodies into bodily fluids to attack antigens.", "Recognize antigens and activate killer T cells.", "Engulf viruses through the process of phagocytosis."],
+                correct: 1,
+                reasoning: "The text explains: 'B cells release antibodies (proteins) into the body's fluids to attack antigens.'",
+                concept: "Immunology"
+            },
+            {
+                question: "76. The stage of HIV infection characterized by persistent symptoms like months-long swollen lymph glands and night sweats is called:",
+                options: ["Asymptomatic Carrier", "Acute HIV Infection", "AIDS-Related Complex (ARC)", "Full-Blown AIDS"],
+                correct: 2,
+                reasoning: "The symptoms section clearly defines ARC with these specific persistent symptoms that are more severe than the initial phase but not yet defining AIDS.",
+                concept: "HIV pathogenesis"
+            },
+            {
+                question: "77. The reason why HIV is classified as a retrovirus is fundamentally due to its:",
+                options: ["Shape and size.", "Ability to cause immunodeficiency.", "Use of reverse transcriptase in its replication cycle.", "Presence of an envelope."],
+                correct: 2,
+                reasoning: "This is the fundamental definition of a retrovirus: the synthesis of DNA from an RNA template, performed by reverse transcriptase.",
+                concept: "Virus classification"
+            },
+            {
+                question: "78. A public health official analyzing the 'highest increase' in new HIV infections in Pakistan would be most concerned about:",
+                options: ["The total number of registered cases being low.", "The rapid growth rate of the epidemic within the population.", "The distribution of cases across different provinces.", "The date the news article was published."],
+                correct: 1,
+                reasoning: "A 17.6% average annual increase signifies an epidemic that is expanding quickly, which is a major concern for allocating resources and implementing prevention strategies.",
+                concept: "Epidemiology"
+            },
+            {
+                question: "79. The enzyme that is crucial for the fusion of the HIV envelope with the host cell membrane is:",
+                options: ["gp120", "Reverse Transcriptase", "gp41", "Integrase"],
+                correct: 2,
+                reasoning: "The structural description notes that the transmembrane glycoprotein 'gp41 is critical for the cell fusion process.'",
+                concept: "HIV replication cycle"
+            },
+            {
+                question: "80. The observation that viruses can undergo mutation and genetic recombination supports their classification as:",
+                options: ["Non-living chemicals", "Having living characteristics", "Inanimate objects", "Complex proteins"],
+                correct: 1,
+                reasoning: "The ability to mutate and recombine genetic material is a property associated with living entities that evolve, listed in the 'living characters' section for viruses.",
+                concept: "General virology"
+            },
+            {
+                question: "81. A patient diagnosed with 'Full Blown AIDS' is most likely to succumb to:",
+                options: ["The direct toxic effects of the HIV virus.", "A common cold virus.", "An opportunistic infection like pneumonia or cancer.", "An allergic reaction to antiretroviral drugs."],
+                correct: 2,
+                reasoning: "The text states the final stage involves 'usually one of several opportunistic infections,' which are the direct cause of death due to the destroyed immune system.",
+                concept: "HIV pathogenesis"
+            },
+            {
+                question: "82. The host cell ribosomes are utilized by HIV to:",
+                options: ["Reverse transcribe RNA into DNA.", "Integrate viral DNA.", "Translate viral mRNA into protein.", "Bud new virions from the membrane."],
+                correct: 2,
+                reasoning: "Step 10 of the life cycle states: 'The viral mRNAs are translated by host ribosomes into several large proteins.'",
+                concept: "HIV replication cycle"
+            },
+            {
+                question: "83. The historical term 'filterable viruses' became obsolete because:",
+                options: ["All viruses were found to be too large to pass through filters.", "It was discovered that some bacteria could also pass through filters.", "It described a property (filterability) not unique to viruses.", "Viruses were reclassified as poisonous chemicals."],
+                correct: 2,
+                reasoning: "The term was descriptive but not scientifically precise. The focus shifted to their particulate nature, structure, and biological effects rather than just their size relative to bacteria.",
+                concept: "History of virology"
+            },
+            {
+                question: "84. The dramatic increase in lifespan for HIV-positive individuals who start ART early demonstrates that:",
+                options: ["HIV is a minor infection.", "ART is a complete cure for HIV.", "Viral suppression can effectively restore near-normal immune function for decades.", "Opportunistic infections are no longer a threat."],
+                correct: 2,
+                reasoning: "The treatment section emphasizes that with early ART, the lifespan is 'very close to that of comparable HIV-negative people,' showing successful long-term management.",
+                concept: "HIV treatment"
+            },
+            {
+                question: "85. Papovirus is associated with causing:",
+                options: ["Smallpox", "Warts", "Hepatitis", "Measles"],
+                correct: 1,
+                reasoning: "The animal virus section lists 'Papovirus causes warts.'",
+                concept: "Virus classification"
+            },
+            {
+                question: "86. The process of reverse transcription results in the production of:",
+                options: ["Viral mRNA from a DNA template", "Viral DNA from an RNA template", "Viral proteins from an mRNA template", "New viral RNA from an RNA template"],
+                correct: 1,
+                reasoning: "This is the fundamental definition of reverse transcription: the synthesis of DNA from an RNA template, performed by reverse transcriptase.",
+                concept: "Viral replication cycle"
+            },
+            {
+                question: "87. The primary purpose of a viral capsid is to:",
+                options: ["Carry out metabolic reactions for the virus.", "Generate energy for infection.", "Protect the viral genetic material.", "Synthesize new viral enzymes."],
+                correct: 2,
+                reasoning: "While not explicitly stated, this is a core function of the capsid. It encloses and protects the fragile nucleic acid genome outside the host cell.",
+                concept: "Virus structure"
+            },
+            {
+                question: "88. A disease that would be considered 'opportunistic' in an AIDS patient is:",
+                options: ["A common cold", "Toxoplasmosis of the brain", "Measles in a child", "Food poisoning"],
+                correct: 1,
+                reasoning: "The text lists 'Toxoplasmosis of the brain' as a specific example of an opportunistic invasion that takes advantage of a weakened immune system.",
+                concept: "AIDS complications"
+            },
+            {
+                question: "89. The genetic material of influenza virus is:",
+                options: ["Double-stranded DNA", "Single-stranded RNA that serves as a template for mRNA synthesis", "Single-stranded RNA that serves as mRNA", "Double-stranded RNA"],
+                correct: 1,
+                reasoning: "The genome classification section lists Influenza virus as an example of 'ssRNA; template for mRNA synthesis.'",
+                concept: "Virus classification"
+            },
+            {
+                question: "90. The fact that HIV's replication cycle involves creating a DNA copy that integrates into the host chromosome makes it difficult to eradicate because:",
+                options: ["The virus becomes invisible to the immune system while latent.", "The viral DNA is mistaken for the host's own DNA.", "It allows the virus to persist indefinitely in a dormant state within infected cells.", "All of the above."],
+                correct: 3,
+                reasoning: "The provirus state is a major barrier to a cure. It is integrated into the host genome (b), can be latent (a), and is not effectively targeted by the immune system or drugs (c).",
+                concept: "HIV pathogenesis and treatment"
+            },
+            {
+                question: "91. The mention of 'Islamic teachings' in the context of AIDS prevention most directly advocates for:",
+                options: ["Scientific research into a cure.", "Abstinence and fidelity within marriage.", "Widespread mandatory testing.", "The use of spiritual healing over medicine."],
+                correct: 1,
+                reasoning: "The advice to 'refrain from immoral sexual activities and follow Islamic teachings to pass healthy... life' promotes behavioral prevention through reducing sexual partners, aligning with abstinence and fidelity.",
+                concept: "HIV prevention"
+            },
+            {
+                question: "92. A virus with an 'enveloped' structure, like Influenza virus, has:",
+                options: ["A hard protein shell without any outer layer.", "A lipid bilayer membrane surrounding its capsid.", "A complex head-tail morphology.", "A rod-shaped arrangement of capsomers."],
+                correct: 1,
+                reasoning: "The classification based on structure lists 'enveloped viruses e.g., Influenza viruses,' which are defined by having a host-derived lipid envelope.",
+                concept: "Virus structure"
+            },
+            {
+                question: "93. The statistic '78 million people have become infected with HIV since the start of the epidemic' represents the:",
+                options: ["Current prevalence", "Lifetime incidence", "Annual mortality", "Cure rate"],
+                correct: 1,
+                reasoning: "This cumulative number represents the total number of new infections that have ever occurred (the lifetime incidence) since the epidemic began.",
+                concept: "Epidemiology"
+            }
+        ];
+
+        // DOM Elements
+        const passwordSection = document.getElementById('password-section');
+        const quizSection = document.getElementById('quiz-section');
+        const resultSection = document.getElementById('result-section');
+        const passwordInput = document.getElementById('password-input');
+        const startBtn = document.getElementById('start-btn');
+        const questionEl = document.getElementById('question');
+        const optionsEl = document.getElementById('options');
+        const backBtn = document.getElementById('back-btn');
+        const skipBtn = document.getElementById('skip-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const submitBtn = document.getElementById('submit-btn');
+        const progressBar = document.getElementById('progress-bar');
+        const progressPercent = document.getElementById('progress-percent');
+        const currentQuestionEl = document.getElementById('current-question');
+        const totalQuestionsEl = document.getElementById('total-questions');
+        const skippedCountEl = document.getElementById('skipped-count');
+        const totalTimerEl = document.getElementById('total-time');
+        const questionTimerEl = document.getElementById('question-time');
+        const totalTimerDisplay = document.getElementById('total-timer');
+        const questionTimerDisplay = document.getElementById('question-timer');
+        const timeProgressFillEl = document.getElementById('time-progress-fill');
+        const resultMcqsEl = document.getElementById('total-mcqs');
+        const resultCorrectEl = document.getElementById('correct-answers');
+        const resultWrongEl = document.getElementById('wrong-answers');
+        const resultSkippedEl = document.getElementById('skipped-answers');
+        const resultLeftEl = document.getElementById('left-answers');
+        const resultPercentageEl = document.getElementById('percentage');
+        const resultTimeTakenEl = document.getElementById('time-taken');
+        const resultDetailsEl = document.getElementById('result-details');
+        const retakeBtn = document.getElementById('retake-btn');
+        const messageModal = document.getElementById('message-modal');
+        const modalTitleEl = document.getElementById('modal-title');
+        const modalMessageEl = document.getElementById('modal-message');
+
+        // Quiz State Variables
+        let currentQuestionIndex = 0;
+        let userAnswers = new Array(quizData.length).fill(null);
+        let totalTimeLimit = 600; // 10 minutes in seconds
+        let questionTimeLimit = 60; // 1 minute in seconds
+        let totalTimeElapsed = 0;
+        let totalTimerInterval;
+        let questionTimerInterval;
+        const passwordKey = 'BXM736/?,AXK';
+
+        // --- Utility Functions ---
+
+        // Function to show a custom message box instead of alert()
+        function showMessage(title, message) {
+            modalTitleEl.textContent = title;
+            modalMessageEl.textContent = message;
+            messageModal.style.display = 'flex';
+        }
+        
+        // Function to format seconds into MM:SS format
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+        }
+
+        // --- Core Quiz Logic ---
+
+        // Function to start the total timer
+        function startTotalTimer() {
+            totalTimeElapsed = 0;
+            totalTimerInterval = setInterval(() => {
+                totalTimeElapsed++;
+                const remainingTime = totalTimeLimit - totalTimeElapsed;
+                if (remainingTime < 0) {
+                    endQuiz();
+                } else {
+                    totalTimerEl.textContent = formatTime(remainingTime);
+                }
+            }, 1000);
+        }
+
+        // Function to start the question timer
+        function startQuestionTimer() {
+            let questionTimeLeft = questionTimeLimit;
+            questionTimerEl.textContent = formatTime(questionTimeLeft);
+            timeProgressFillEl.style.width = `100%`;
+            
+            questionTimerInterval = setInterval(() => {
+                questionTimeLeft--;
+                questionTimerEl.textContent = formatTime(questionTimeLeft);
+                const progress = (questionTimeLeft / questionTimeLimit) * 100;
+                timeProgressFillEl.style.width = `${progress}%`;
+
+                if (questionTimeLeft <= 0) {
+                    clearInterval(questionTimerInterval);
+                    handleNextQuestion();
+                }
+            }, 1000);
+        }
+
+        // Function to load a question and its options
+        function loadQuestion() {
+            if (currentQuestionIndex < 0 || currentQuestionIndex >= quizData.length) {
+                endQuiz();
+                return;
+            }
+
+            clearInterval(questionTimerInterval);
+            startQuestionTimer();
+
+            const questionObj = quizData[currentQuestionIndex];
+            questionEl.textContent = questionObj.question;
+            optionsEl.innerHTML = '';
+
+            const optionLabels = ["A", "B", "C", "D"];
+            questionObj.options.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.classList.add('option-row');
+                optionDiv.innerHTML = `
+                    <span class="option-label">${optionLabels[index]}</span>
+                    <span class="option-text">${option}</span>
+                `;
+                optionDiv.dataset.index = index;
+                if (userAnswers[currentQuestionIndex] === index) {
+                    optionDiv.classList.add('selected');
+                }
+                optionsEl.appendChild(optionDiv);
+            });
+            
+            // Update progress and info
+            const progress = ((currentQuestionIndex + 1) / quizData.length) * 100;
+            progressBar.style.width = `${progress}%`;
+            progressPercent.textContent = `${Math.round(progress)}%`;
+            currentQuestionEl.textContent = currentQuestionIndex + 1;
+            totalQuestionsEl.textContent = quizData.length;
+            skippedCountEl.textContent = userAnswers.filter(ans => ans === null).length;
+
+            // Handle button visibility
+            backBtn.style.display = currentQuestionIndex > 0 ? 'flex' : 'none';
+            nextBtn.style.display = currentQuestionIndex < quizData.length - 1 ? 'flex' : 'none';
+            skipBtn.style.display = userAnswers[currentQuestionIndex] === null ? 'flex' : 'none';
+            submitBtn.style.display = currentQuestionIndex === quizData.length - 1 ? 'flex' : 'none';
+        }
+
+        // Function to handle the next question logic
+        function handleNextQuestion() {
+            if (currentQuestionIndex < quizData.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                endQuiz();
+            }
+        }
+        
+        // Function to calculate and display results
+        function endQuiz() {
+            clearInterval(totalTimerInterval);
+            clearInterval(questionTimerInterval);
+            
+            quizSection.style.display = 'none';
+            totalTimerDisplay.style.display = 'none';
+            questionTimerDisplay.style.display = 'none';
+            resultSection.style.display = 'block';
+
+            let correctCount = 0;
+            let wrongCount = 0;
+            let skippedCount = 0;
+            let leftCount = 0;
+            
+            resultDetailsEl.innerHTML = '';
+            
+            userAnswers.forEach((userAnswer, index) => {
+                const quizItem = quizData[index];
+                const isCorrect = userAnswer === quizItem.correct;
+                const isSkipped = userAnswer === null;
+
+                const resultItem = document.createElement('div');
+                resultItem.classList.add('result-item');
+                
+                let resultText = '';
+                if (isSkipped) {
+                    skippedCount++;
+                    resultText = `<span class="incorrect">Skipped</span>`;
+                } else if (isCorrect) {
+                    correctCount++;
+                    resultText = `<span class="correct">Correct</span>`;
+                } else {
+                    wrongCount++;
+                    resultText = `<span class="incorrect">Wrong</span>`;
+                }
+
+                resultItem.innerHTML = `
+                    <div class="result-question">
+                        ${quizItem.question}
+                        ${resultText}
+                    </div>
+                    <div class="result-answer">
+                        ${isSkipped ? '' : `Your Answer: ${quizItem.options[userAnswer]}`}
+                    </div>
+                    <div class="result-answer correct">
+                        Correct Answer: ${quizItem.options[quizItem.correct]}
+                    </div>
+                    <div class="reasoning">
+                        <strong>Reasoning:</strong> ${quizItem.reasoning}
+                    </div>
+                `;
+                resultDetailsEl.appendChild(resultItem);
+            });
+            leftCount = userAnswers.filter(ans => ans === null).length;
+            
+            const total = quizData.length;
+            const percentage = (correctCount / total) * 100 || 0;
+            
+            resultMcqsEl.textContent = total;
+            resultCorrectEl.textContent = correctCount;
+            resultWrongEl.textContent = wrongCount;
+            resultSkippedEl.textContent = skippedCount;
+            resultLeftEl.textContent = leftCount;
+            resultPercentageEl.textContent = `${percentage.toFixed(0)}%`;
+            resultTimeTakenEl.textContent = formatTime(totalTimeElapsed);
+        }
+        
+        // --- Event Listeners ---
+
+        // Start button logic
+        startBtn.addEventListener('click', () => {
+            const password = passwordInput.value.trim();
+            if (password === passwordKey) {
+                passwordSection.style.display = 'none';
+                quizSection.style.display = 'block';
+                totalTimerDisplay.style.display = 'inline-flex';
+                questionTimerDisplay.style.display = 'inline-flex';
+                startTotalTimer();
+                loadQuestion();
+            } else {
+                showMessage("Invalid Password", "Please enter the correct password to begin the quiz.");
+                passwordInput.value = ''; // Clear password field on wrong attempt
+            }
+        });
+
+        // Option selection logic
+        optionsEl.addEventListener('click', (e) => {
+            const optionRow = e.target.closest('.option-row');
+            if (optionRow) {
+                // Clear previous selection
+                optionsEl.querySelectorAll('.option-row').forEach(row => {
+                    row.classList.remove('selected');
+                });
+                // Add new selection
+                optionRow.classList.add('selected');
+                userAnswers[currentQuestionIndex] = parseInt(optionRow.dataset.index);
+            }
+        });
+
+        // Navigation buttons
+        backBtn.addEventListener('click', () => {
+            currentQuestionIndex--;
+            loadQuestion();
+        });
+
+        skipBtn.addEventListener('click', () => {
+            userAnswers[currentQuestionIndex] = null; // Mark as skipped
+            handleNextQuestion();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            handleNextQuestion();
+        });
+
+        submitBtn.addEventListener('click', endQuiz);
+
+        // Retake button logic
+        retakeBtn.addEventListener('click', () => {
+            currentQuestionIndex = 0;
+            userAnswers.fill(null);
+            totalTimeElapsed = 0;
+            resultSection.style.display = 'none';
+            passwordSection.style.display = 'block';
+            passwordInput.value = '';
+            totalTimerEl.textContent = formatTime(totalTimeLimit);
+            questionTimerEl.textContent = formatTime(questionTimeLimit);
+            skippedCountEl.textContent = 0;
+        });
+    </script>
+</body>
+</html>
